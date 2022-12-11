@@ -65,7 +65,7 @@ class CustomMainWindow(QtWidgets.QMainWindow):
         self.ax.set_xlabel('Время')  # отображается под данными (видимость изменяется в зависимости от размера окна)
         self.ax.set_ylabel('Процент загрузки ЦП')
 
-        self.ax.set_ylim(0, 50)  # лучше видно график, можно изменить на (0, 100)
+        self.ax.set_ylim(0, 70)  # лучше видно график, можно изменить на (0, 100)
         self.ax.tick_params(axis='x', rotation=45)
 
         repeat_length = 10  # сдвиг графика (количество отображаемых точек)
