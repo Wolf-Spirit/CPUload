@@ -13,10 +13,18 @@ fpp.config['DEBUG'] = True
 
 fpp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'CPUload.db')
 
+figure = dict(data=[{'x': [], 'y': []}],
+              layout=dict(title='CPU Load Level',
+                          yaxis=dict(range=[0, 100], title='Процент загрузки ЦП'),
+                          xaxis=dict(title='Время')
+                          )
+              )
 
-figure = dict(data=[{'x': [], 'y': []}])
 app = dash.Dash(__name__, update_title=None)  # remove "Updating..." from title
-app.layout = html.Div([dcc.Graph(id='graph', figure=figure), dcc.Interval(id="interval")])
+app.layout = html.Div([dcc.Graph(id='graph', figure=figure,
+                                 style={'height': '90vh'}  # graph is 90% of the height of the browser's viewport
+                                 ),
+                       dcc.Interval(id="interval")])
 
 
 @app.callback(Output('graph', 'extendData'), [Input('interval', 'n_intervals')])
@@ -28,9 +36,9 @@ def update_data(n_intervals):
 
     conn.close()
 
-    print("-------------", dict(x=[[results[-1][0]]], y=[[results[-1][1]]]), "--------------------")
+    #print("-------------", dict(x=[[results[-1][0]]], y=[[results[-1][1]]]), "--------------------")
     # tuple is (dict of new data, target trace index, number of points to keep)
-    return dict(x=[[results[-1][0]]], y=[[results[-1][1]]]), [0], 10
+    return dict(x=[[results[-1][0]]], y=[[results[-1][1]]]), [0], 50
 
 
 if __name__ == '__main__':
